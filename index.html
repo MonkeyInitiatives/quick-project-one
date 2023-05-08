@@ -17,8 +17,9 @@
         <nav>
             <div class="nav-wrapper blue lighten-3">
                 <a href="#!" class="brand-logo"><i class="material-icons" style="padding-left: 10px;">music_note</i><i
-                        class="material-icons" >map</i>Music Mapper <span style="font-size:medium;">- Directions to your favorite artist!</span></a>
-                
+                        class="material-icons">map</i>Music Mapper <span style="font-size:medium;">- Directions to your
+                        favorite artist!</span></a>
+
             </div>
         </nav>
         <div class="row">
@@ -45,7 +46,7 @@
                     <div class="col s12" id="map" style='height:640px;'></div>
                 </div>
                 <div class="row">
-                    <div class="col s12" id="directions"></div>
+                    <div class="col s12 card-panel blue lighten-3 white-text" id="directions"></div>
                 </div>
             </div>
         </div>
@@ -112,8 +113,10 @@
             card.classList = "card-panel blue lighten-3";
             const span = document.createElement("div");
             span.classList = "white-text";
+            var date = new Date(data.datetime);
             span.innerHTML = `
                 ${data.venue.name}<br><br>
+                ${date.toLocaleString()}<br><br>
                 ${data.venue.street_address}<br>
                 ${data.venue.location} ${data.venue.postal_code}`
             const directionButtn = document.createElement("a");
