@@ -68,6 +68,17 @@
         let map;
         let myLatitude;
         let myLongitude;
+        let selectedConcert;
+        let previousArtist = JSON.parse(localStorage.getItem("artist"));
+        let previousDirections = localStorage.getItem("directions");
+        console.log(previousArtist)
+        if(previousArtist!== null){
+            getBandInfo(previousArtist)
+        }
+        if(previousDirections!== null){
+            let div = document.getElementById('directions');
+            div.innerHTML = previousDirections
+        }
         L.mapquest.key = 'IEH6tmG8IIjCMUGcfnqxBbwY56Mv4Xwe';
             if (map != undefined) {
                 map.remove();
@@ -79,6 +90,8 @@
             });
         function getBandName(event) {
             event.preventDefault();
+            let div = document.getElementById('directions');
+            div.innerHTML = ""
             const artistInput = document.querySelector("#artist-name")
             getBandInfo(artistInput)
         }
@@ -93,6 +106,8 @@
             };
             navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
             const artistInput = bandName
+            console.log(artistInput)
+            localStorage.setItem("artist", JSON.stringify({value: artistInput.value}));
             similarArtists(artistInput.value);
             const concerts = document.querySelector("#concerts")
             concerts.innerHTML = "<div class='blue lighten-3 white-text center-align' style='margin-bottom: 20px;'><h5>Upcoming Concerts</h5></div>"
@@ -140,6 +155,7 @@
             directionButtn.classList = "waves-effect waves-light btn blue lighten-2";
             directionButtn.textContent = "Get Directions"
             directionButtn.addEventListener("click", function () {
+                selectedConcert = data.venue.name;
                 getDirections(data.venue.latitude, data.venue.longitude)
             })
             card.append(span)
@@ -183,7 +199,7 @@
                 })
                 .then(function (data) {
                     var div = document.getElementById('directions');
-                    div.innerHTML += `<h3>Trip duration: ${data.route.formattedTime}<h3>`
+                    div.innerHTML += `<h3>Directions to ${selectedConcert}</h3><h4>Trip duration: ${data.route.formattedTime}<h4>`
                     div.innerHTML += `<h4>${Math.trunc(data.route.distance)} miles<h4>`
                     for (let i = 0; i < data.route.legs[0].maneuvers.length; i++) {
                         const element = data.route.legs[0].maneuvers[i];
@@ -191,6 +207,7 @@
                         var div = document.getElementById('directions');
                         div.innerHTML += `<p>${element.narrative}</p>`;
                     }
+                    localStorage.setItem("directions", div.innerHTML);
                 })
         }
         function similarArtists(artistInput) {
