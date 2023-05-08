@@ -43,7 +43,9 @@
                 <div class="row">
                     <div class="col s12">
                         <div class="card-panel blue lighten-3">
-                            <span class="white-text">Welcome to Music Mapper - "Directions to your favorite artists!"<br><br>Search for any currently performing artist to locate their upcoming concerts.
+                            <span class="white-text">Welcome to Music Mapper - "Directions to your favorite
+                                artists!"<br><br>Search for any currently performing artist to locate their upcoming
+                                concerts.
                             </span>
                         </div>
                     </div>
@@ -71,23 +73,23 @@
         let selectedConcert;
         let previousArtist = JSON.parse(localStorage.getItem("artist"));
         let previousDirections = localStorage.getItem("directions");
-        console.log(previousArtist)
-        if(previousArtist!== null){
+
+        if (previousArtist !== null) {
             getBandInfo(previousArtist)
         }
-        if(previousDirections!== null){
+        if (previousDirections !== null) {
             let div = document.getElementById('directions');
             div.innerHTML = previousDirections
         }
         L.mapquest.key = 'IEH6tmG8IIjCMUGcfnqxBbwY56Mv4Xwe';
-            if (map != undefined) {
-                map.remove();
-            }
-            map = L.mapquest.map('map', {
-                center: [40.7128, -74.0060],
-                layers: L.mapquest.tileLayer('map'),
-                zoom: 13
-            });
+        if (map != undefined) {
+            map.remove();
+        }
+        map = L.mapquest.map('map', {
+            center: [40.7128, -74.0060],
+            layers: L.mapquest.tileLayer('map'),
+            zoom: 13
+        });
         function getBandName(event) {
             event.preventDefault();
             let div = document.getElementById('directions');
@@ -106,8 +108,8 @@
             };
             navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
             const artistInput = bandName
-            console.log(artistInput)
-            localStorage.setItem("artist", JSON.stringify({value: artistInput.value}));
+
+            localStorage.setItem("artist", JSON.stringify({ value: artistInput.value }));
             similarArtists(artistInput.value);
             const concerts = document.querySelector("#concerts")
             concerts.innerHTML = "<div class='blue lighten-3 white-text center-align' style='margin-bottom: 20px;'><h5>Upcoming Concerts</h5></div>"
@@ -184,10 +186,14 @@
                 layers: L.mapquest.tileLayer('map'),
                 zoom: 13
             });
+
+
             L.mapquest.directions().route({
                 start: `${myLatitude}, ${myLongitude}`,
                 end: `${concertLat}, ${concertLong}`
             });
+
+            localStorage.setItem("route", JSON.stringify([myLatitude, myLongitude, concertLat, concertLong]))
             getDistance(concertLat, concertLong)
         }
         function getDistance(concertLat, concertLong) {
@@ -230,7 +236,6 @@
                             </div>
                         </div>`
                         divContainer.addEventListener("click", function () {
-                            console.log(artist.name)
                             getBandInfo({ value: artist.name })
                         })
                         similarArtistsDiv.append(divContainer)
