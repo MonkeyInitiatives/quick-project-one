@@ -174,8 +174,7 @@
         function getDistance(concertLat, concertLong) {
             var div = document.getElementById('directions');
             div.innerHTML = ""
-            fetch(`https://www.mapquestapi.com/directions/v2/route?key=IEH6tmG8IIjCMUGcfnqxBbwY56Mv4Xwe
-            &from=${myLatitude},${myLongitude}&to=${concertLat},${concertLong}&outFormat=json&ambiguities=ignore&routeType=fastest&doReverseGeocode=false&enhancedNarrative=false&avoidTimedConditions=false`)
+            fetch(`https://www.mapquestapi.com/directions/v2/route?key=IEH6tmG8IIjCMUGcfnqxBbwY56Mv4Xwe&from=${myLatitude},${myLongitude}&to=${concertLat},${concertLong}&outFormat=json&ambiguities=ignore&routeType=fastest&doReverseGeocode=false&enhancedNarrative=false&avoidTimedConditions=false`)
                 .then(function (response) {
                     return response.json()
                 })
